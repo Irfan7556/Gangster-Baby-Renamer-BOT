@@ -2,22 +2,22 @@ import re, os
 
 id_pattern = re.compile(r'^.\d+$') 
 
-API_ID = os.environ.get("API_ID", "")
+API_ID = os.environ.get("API_ID", "21786970")
 
-API_HASH = os.environ.get("API_HASH", "")
+API_HASH = os.environ.get("API_HASH", " aa1eaa84080fdf706c5cb37a27d35e81")
 
-BOT_TOKEN = os.environ.get("BOT_TOKEN", "") 
+BOT_TOKEN = os.environ.get("BOT_TOKEN", "7849794082:AAEhUjqhZS-YMrWKgWghLbZnivv3MnRR_Lo") 
 
-FORCE_SUB = os.environ.get("FORCE_SUB", "") 
+FORCE_SUB = os.environ.get("FORCE_SUB", "KMovieHubInHindi") 
 
-DB_NAME = os.environ.get("DB_NAME","")     
+DB_NAME = os.environ.get("DB_NAME","TensaiRenameBot")     
 
-DB_URL = os.environ.get("DB_URL","")
+DB_URL = os.environ.get("DB_URL","mongodb+srv://mohammadirfan5227:uwkiGejZGyRLV3nP@cluster0.ub1brgf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
  
 FLOOD = int(os.environ.get("FLOOD", "10"))
 
 START_PIC = os.environ.get("START_PIC", "")
 
-ADMIN = [int(admin) if id_pattern.search(admin) else admin for admin in os.environ.get('ADMIN', '').split()]
+ADMIN = [int(admin) if id_pattern.search(admin) else admin for admin in os.environ.get('ADMIN', ' 5944299635').split()]
 
 PORT = os.environ.get("PORT", "8080")
