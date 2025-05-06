@@ -12,7 +12,7 @@ FORCE_SUB = os.environ.get("FORCE_SUB", "KMovieHubInHindi")
 
 DB_NAME = os.environ.get("DB_NAME","TensaiRenameBot")     
 
-DB_URL = os.environ.get("DB_URL","mongodb+srv://mohammadirfan5227:uwkiGejZGyRLV3nP@cluster0.ub1brgf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+DB_URL = os.environ.get("DB_URL","mongodb+srv://mohammadirfan01239:T1njoUYWxmsu1itN@cluster0.suyfipt.mongodb.net/TensaiRenameBot?retryWrites=true&w=majority&appName=Cluster0")
  
 FLOOD = int(os.environ.get("FLOOD", "10"))
 
