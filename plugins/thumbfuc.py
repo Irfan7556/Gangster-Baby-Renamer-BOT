@@ -4,6 +4,8 @@ from helper.database import db
 @Client.on_message(filters.private & filters.command(['viewthumb']))
 async def viewthumb(client, message):    
     thumb = await db.get_thumbnail(message.from_user.id)
+    print(f"🧐 Debug: Retrieved thumbnail → {thumb}")  # Add this for debugging
+    if thumb:
     if thumb:
        await client.send_photo(
 	   chat_id=message.chat.id, 
