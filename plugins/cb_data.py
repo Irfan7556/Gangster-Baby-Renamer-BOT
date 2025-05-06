@@ -18,18 +18,21 @@ logging.basicConfig(
 
 @Client.on_callback_query(filters.regex("upload"))
 async def doc(bot, update):
+    user_id = update.from_user.id  # ✅ Fix callback query handling
+    logging.debug(f"🧐 Debug - Callback query received from user {user_id}")
+
     type = update.data.split("_")[1]
     new_name = update.message.text
     new_filename = new_name.split(":-")[1]
     file_path = f"downloads/{new_filename}"
     file = update.message.reply_to_message
 
-    # Debug: Checking file path before download
+    # ✅ Debug: Checking file path before download
     logging.debug(f"🧐 Debug - Expected File Path: {file_path}")
 
     ms = await update.message.edit("⚠️ Please wait... Downloading file to my server...")
     c_time = time.time()
-    
+
     try:
         path = await bot.download_media(
             message=file, 
@@ -40,19 +43,19 @@ async def doc(bot, update):
         await ms.edit(f"❌ Error during download: {e}")
         logging.error(f"❌ Download failed: {e}")
         return
-    
-    # Debug: Confirming downloaded file path
+
+    # ✅ Debug: Confirming downloaded file path
     logging.debug(f"🧐 Debug - Downloaded File Path: {path}")
-    
+
     splitpath = path.split("/downloads/")
     dow_file_name = splitpath[1]
     old_file_name = f"downloads/{dow_file_name}"
-    
+
     os.rename(old_file_name, file_path)
-    
-    # Debug: Checking renamed file path
+
+    # ✅ Debug: Checking renamed file path
     logging.debug(f"🧐 Debug - Renamed File Path: {file_path}")
-    
+
     if not os.path.exists(file_path):
         await ms.edit("⚠️ Error: File was not saved properly!")
         logging.error(f"❌ File missing after renaming: {file_path}")
@@ -66,30 +69,17 @@ async def doc(bot, update):
     except Exception as e:
         logging.warning(f"⚠️ Metadata extraction failed: {e}")
 
-    user_id = int(update.message.chat.id)
     ph_path = None
     media = getattr(file, file.media.value)
 
     # ✅ Debugging Caption & Thumbnail Retrieval
-    c_caption = await db.get_caption(update.message.chat.id)
-    c_thumb = await db.get_thumbnail(update.message.chat.id)
-    
+    c_caption = await db.get_caption(update.message.chat.id) or "**Default Caption**"
+    c_thumb = await db.get_thumbnail(update.message.chat.id) or None
+
     logging.debug(f"🧐 Debug - Retrieved Caption: {c_caption}")
     logging.debug(f"🧐 Debug - Retrieved Thumbnail: {c_thumb}")
 
-    if c_caption:
-        try:
-            caption = c_caption.format(
-                filename=new_filename, 
-                filesize=humanize.naturalsize(media.file_size), 
-                duration=convert(duration)
-            )
-        except Exception as e:
-            await ms.edit(f"❌ Caption Error: {e}")
-            logging.error(f"❌ Caption formatting failed: {e}")
-            return
-    else:
-        caption = f"**{new_filename}**"
+    caption = c_caption.format(filename=new_filename, filesize=humanize.naturalsize(media.file_size), duration=convert(duration)) if c_caption else f"**{new_filename}**"
 
     if media.thumbs or c_thumb:
         if c_thumb:
